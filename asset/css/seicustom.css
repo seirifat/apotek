@@ -1,0 +1,15 @@
+img.logo{
+    width: 40px;
+    height: auto;
+    position: relative;
+    float: left;
+    display: inline;
+    margin-top: -9px;
+    margin-right: 10px;
+}
+
+img.icon{
+    width: 15px;
+    height: auto;
+    margin-top: -3px;
+}
