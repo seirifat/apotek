@@ -1,7 +1,12 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: ARSrft
- * Date: 12/23/2014
- * Time: 3:47 PM
- */ 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+class Obat extends CI_Controller
+{
+	public $data = array();
+	public function index()
+	{
+		$this->data['title'] = "Apotek";
+		$this->load->view('obat',$this->data);
+	}
+}
+
+//End login.php

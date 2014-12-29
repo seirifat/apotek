@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2014 at 10:00 AM
+-- Generation Time: Dec 29, 2014 at 03:24 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -110,7 +110,17 @@ CREATE TABLE IF NOT EXISTS `jabatan` (
   `kode_jabatan` varchar(10) DEFAULT NULL,
   `nama_jabatan` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`jabatanid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `jabatan`
+--
+
+INSERT INTO `jabatan` (`jabatanid`, `kode_jabatan`, `nama_jabatan`) VALUES
+(1, 'ADM', 'Admin'),
+(2, 'KSR', 'Kasir'),
+(3, 'APT', 'Apoteker'),
+(4, 'PLK', 'Pemilik');
 
 -- --------------------------------------------------------
 
@@ -134,6 +144,8 @@ CREATE TABLE IF NOT EXISTS `jenis` (
 CREATE TABLE IF NOT EXISTS `karyawan` (
   `karyawanid` int(11) NOT NULL AUTO_INCREMENT,
   `kode_karyawan` varchar(10) DEFAULT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `nama_karyawan` varchar(100) DEFAULT NULL,
   `tanggal_lahir` date DEFAULT NULL,
   `jenis_kelamin` varchar(10) DEFAULT NULL,
@@ -143,7 +155,14 @@ CREATE TABLE IF NOT EXISTS `karyawan` (
   `alamat` longtext,
   PRIMARY KEY (`karyawanid`),
   KEY `fk_jabatan` (`jabatanid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `karyawan`
+--
+
+INSERT INTO `karyawan` (`karyawanid`, `kode_karyawan`, `username`, `password`, `nama_karyawan`, `tanggal_lahir`, `jenis_kelamin`, `jabatanid`, `kode_aksesid`, `handphone`, `alamat`) VALUES
+(1, 'ADM01', 'centaury', '579463e94b675f7ecbc4ae0ec0b4d6f7', NULL, '1991-09-19', 'Pria', 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -297,22 +316,22 @@ CREATE TABLE IF NOT EXISTS `transaksi` (
 -- Constraints for table `daftar_pemesanan_obat`
 --
 ALTER TABLE `daftar_pemesanan_obat`
-  ADD CONSTRAINT `daftar_pemesanan_obat_ibfk_2` FOREIGN KEY (`pemesanan_obatid`) REFERENCES `pemesanan_obat` (`pemesanan_obatid`),
-  ADD CONSTRAINT `daftar_pemesanan_obat_ibfk_1` FOREIGN KEY (`obatid`) REFERENCES `obat` (`obatid`);
+  ADD CONSTRAINT `daftar_pemesanan_obat_ibfk_1` FOREIGN KEY (`obatid`) REFERENCES `obat` (`obatid`),
+  ADD CONSTRAINT `daftar_pemesanan_obat_ibfk_2` FOREIGN KEY (`pemesanan_obatid`) REFERENCES `pemesanan_obat` (`pemesanan_obatid`);
 
 --
 -- Constraints for table `detail_akses`
 --
 ALTER TABLE `detail_akses`
-  ADD CONSTRAINT `detail_akses_ibfk_2` FOREIGN KEY (`kode_aksesid`) REFERENCES `kode_akses` (`kode_aksesid`),
-  ADD CONSTRAINT `detail_akses_ibfk_1` FOREIGN KEY (`jabatanid`) REFERENCES `jabatan` (`jabatanid`);
+  ADD CONSTRAINT `detail_akses_ibfk_1` FOREIGN KEY (`jabatanid`) REFERENCES `jabatan` (`jabatanid`),
+  ADD CONSTRAINT `detail_akses_ibfk_2` FOREIGN KEY (`kode_aksesid`) REFERENCES `kode_akses` (`kode_aksesid`);
 
 --
 -- Constraints for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  ADD CONSTRAINT `detail_transaksi_ibfk_2` FOREIGN KEY (`obatid`) REFERENCES `obat` (`obatid`),
-  ADD CONSTRAINT `detail_transaksi_ibfk_1` FOREIGN KEY (`transaksiid`) REFERENCES `transaksi` (`transaksiid`);
+  ADD CONSTRAINT `detail_transaksi_ibfk_1` FOREIGN KEY (`transaksiid`) REFERENCES `transaksi` (`transaksiid`),
+  ADD CONSTRAINT `detail_transaksi_ibfk_2` FOREIGN KEY (`obatid`) REFERENCES `obat` (`obatid`);
 
 --
 -- Constraints for table `karyawan`
@@ -330,15 +349,15 @@ ALTER TABLE `kode_akses`
 -- Constraints for table `obat`
 --
 ALTER TABLE `obat`
-  ADD CONSTRAINT `obat_ibfk_2` FOREIGN KEY (`bentukid`) REFERENCES `bentuk` (`bentukid`),
-  ADD CONSTRAINT `obat_ibfk_1` FOREIGN KEY (`jenisid`) REFERENCES `jenis` (`jenisid`);
+  ADD CONSTRAINT `obat_ibfk_1` FOREIGN KEY (`jenisid`) REFERENCES `jenis` (`jenisid`),
+  ADD CONSTRAINT `obat_ibfk_2` FOREIGN KEY (`bentukid`) REFERENCES `bentuk` (`bentukid`);
 
 --
 -- Constraints for table `pemesanan_obat`
 --
 ALTER TABLE `pemesanan_obat`
-  ADD CONSTRAINT `pemesanan_obat_ibfk_2` FOREIGN KEY (`karyawanid`) REFERENCES `karyawan` (`karyawanid`),
-  ADD CONSTRAINT `pemesanan_obat_ibfk_1` FOREIGN KEY (`supplierid`) REFERENCES `supplier` (`supplierid`);
+  ADD CONSTRAINT `pemesanan_obat_ibfk_1` FOREIGN KEY (`supplierid`) REFERENCES `supplier` (`supplierid`),
+  ADD CONSTRAINT `pemesanan_obat_ibfk_2` FOREIGN KEY (`karyawanid`) REFERENCES `karyawan` (`karyawanid`);
 
 --
 -- Constraints for table `supplier`
