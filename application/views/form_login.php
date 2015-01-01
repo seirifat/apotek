@@ -2,13 +2,8 @@
 <html lang="en">
 
 <head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="<?php echo base_url();?>/asset/images/favicon.png">
 	
     <title><?php echo $title;?></title>
@@ -23,7 +18,7 @@
     <link href="<?php base_url();?>asset/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="<?php base_url();?>asset/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php base_url();?>asset/font-awesome-4.1.0/css/font-awesome.min.css')" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -37,27 +32,29 @@
                         <h3 class="panel-title">Sign In</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form">
+                        <?php echo form_open('login')?>
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                    <input type="text" value="<?php echo set_value('username')?>" class="form-control" placeholder="Username" name="username"  autofocus >
                                 </div>
+                                    <?php echo form_error('username','<p class="text-danger">','</p>');?>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    <input class="form-control" placeholder="Password" name="password" type="password" value="<?php echo set_value('password')?>">
                                 </div>
-								<!--
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
+                                    <?php echo form_error('password','<p class="text-danger">','</p>');?>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-block btn-lg btn-success" value="Login">
                                 </div>
-								-->
-                                <!-- Change this to a button or input when using this as a form -->
-                                <a href="<?php echo site_url("home");?>" class="btn btn-lg btn-success btn-block">Login</a>
                             </fieldset>
                         </form>
                     </div>
                 </div>
+                <?php if(isset($pesan)):?>
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <strong><?php echo $pesan?></strong>
+                    </div>
+                <?php endif;?>
             </div>
         </div>
     </div>
