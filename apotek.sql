@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 3.4.5
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 29, 2014 at 03:24 AM
--- Server version: 5.6.16
--- PHP Version: 5.5.9
+-- Host: localhost
+-- Generation Time: Jan 02, 2015 at 11:13 AM
+-- Server version: 5.5.16
+-- PHP Version: 5.3.8
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -90,14 +90,25 @@ CREATE TABLE IF NOT EXISTS `detail_transaksi` (
 
 CREATE TABLE IF NOT EXISTS `distributor` (
   `distributorid` int(50) NOT NULL AUTO_INCREMENT,
-  `kode_distributor` varchar(10) NOT NULL,
-  `nama_distributor` varchar(130) NOT NULL,
-  `alamat` varchar(240) NOT NULL,
-  `no_kontak_1` varchar(20) NOT NULL,
-  `no_kontak_2` varchar(20) NOT NULL,
-  `status` int(5) NOT NULL,
+  `kode_distributor` varchar(10) DEFAULT NULL,
+  `nama_distributor` varchar(130) DEFAULT NULL,
+  `alamat` varchar(240) DEFAULT NULL,
+  `no_kontak_1` varchar(20) DEFAULT NULL,
+  `no_kontak_2` varchar(20) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `fax` varchar(35) DEFAULT NULL,
+  `kode_pos` varchar(20) DEFAULT NULL,
+  `status` int(5) DEFAULT NULL,
   PRIMARY KEY (`distributorid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+
+--
+-- Dumping data for table `distributor`
+--
+
+INSERT INTO `distributor` (`distributorid`, `kode_distributor`, `nama_distributor`, `alamat`, `no_kontak_1`, `no_kontak_2`, `email`, `fax`, `kode_pos`, `status`) VALUES
+(1, 'S', 'PT. Alpha', 'itu', '099', '022', 'a@a.coy', '420741', '4039', 1),
+(2, 'A', 'CV. Beta', 'Cikutra', '747', '289237', 'b@b.coy', '2736', '40391', 1);
 
 -- --------------------------------------------------------
 
@@ -155,14 +166,28 @@ CREATE TABLE IF NOT EXISTS `karyawan` (
   `alamat` longtext,
   PRIMARY KEY (`karyawanid`),
   KEY `fk_jabatan` (`jabatanid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `karyawan`
 --
 
 INSERT INTO `karyawan` (`karyawanid`, `kode_karyawan`, `username`, `password`, `nama_karyawan`, `tanggal_lahir`, `jenis_kelamin`, `jabatanid`, `kode_aksesid`, `handphone`, `alamat`) VALUES
-(1, 'ADM01', 'centaury', '579463e94b675f7ecbc4ae0ec0b4d6f7', NULL, '1991-09-19', 'Pria', 1, NULL, NULL, NULL);
+(1, 'ADM01', 'centaury', '579463e94b675f7ecbc4ae0ec0b4d6f7', NULL, '1991-09-19', 'Pria', 1, NULL, NULL, NULL),
+(2, 'ADM01', 'cibs', 'a045363994a92d17354094ee0318302c', 'cibs', '2015-01-01', 'P', 1, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kemasan`
+--
+
+CREATE TABLE IF NOT EXISTS `kemasan` (
+  `kemasanid` int(11) NOT NULL AUTO_INCREMENT,
+  `kode_kemasan` varchar(35) DEFAULT NULL,
+  `nama_kemasan` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`kemasanid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -199,7 +224,15 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `u` int(5) NOT NULL,
   `d` int(5) NOT NULL,
   PRIMARY KEY (`menuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `menu`
+--
+
+INSERT INTO `menu` (`menuid`, `parentid`, `nama_menu`, `url`, `urutan`, `c`, `r`, `u`, `d`) VALUES
+(1, 0, 'Kasir', 'kasir', 1, 1, 1, 1, 1),
+(3, 0, 'Obat', 'obat', 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -213,6 +246,7 @@ CREATE TABLE IF NOT EXISTS `obat` (
   `nama_obat` varchar(100) DEFAULT NULL,
   `jenisid` int(11) DEFAULT NULL,
   `tablet_strip` int(11) DEFAULT NULL,
+  `kemasanid` int(11) DEFAULT NULL,
   `bentukid` int(11) DEFAULT NULL,
   `ukuran` varchar(100) DEFAULT NULL,
   `expired` date DEFAULT NULL,
@@ -222,7 +256,8 @@ CREATE TABLE IF NOT EXISTS `obat` (
   `indikasi` longtext,
   PRIMARY KEY (`obatid`),
   KEY `fk_jenis` (`jenisid`),
-  KEY `fk_bentuk` (`bentukid`)
+  KEY `fk_bentuk` (`bentukid`),
+  KEY `fk_kemasan` (`kemasanid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -308,6 +343,21 @@ CREATE TABLE IF NOT EXISTS `transaksi` (
   KEY `fk_karyawan` (`karyawanid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaksi_satuan`
+--
+
+CREATE TABLE IF NOT EXISTS `transaksi_satuan` (
+  `transaksisatuanid` int(11) NOT NULL AUTO_INCREMENT,
+  `obatid` int(11) DEFAULT NULL,
+  `jumlah` int(11) DEFAULT NULL,
+  `subtotal` int(11) DEFAULT NULL,
+  PRIMARY KEY (`transaksisatuanid`),
+  KEY `fk_obat` (`obatid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 --
 -- Constraints for dumped tables
 --
@@ -350,7 +400,8 @@ ALTER TABLE `kode_akses`
 --
 ALTER TABLE `obat`
   ADD CONSTRAINT `obat_ibfk_1` FOREIGN KEY (`jenisid`) REFERENCES `jenis` (`jenisid`),
-  ADD CONSTRAINT `obat_ibfk_2` FOREIGN KEY (`bentukid`) REFERENCES `bentuk` (`bentukid`);
+  ADD CONSTRAINT `obat_ibfk_2` FOREIGN KEY (`bentukid`) REFERENCES `bentuk` (`bentukid`),
+  ADD CONSTRAINT `obat_ibfk_3` FOREIGN KEY (`kemasanid`) REFERENCES `kemasan` (`kemasanid`);
 
 --
 -- Constraints for table `pemesanan_obat`
@@ -370,6 +421,12 @@ ALTER TABLE `supplier`
 --
 ALTER TABLE `transaksi`
   ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`karyawanid`) REFERENCES `karyawan` (`karyawanid`);
+
+--
+-- Constraints for table `transaksi_satuan`
+--
+ALTER TABLE `transaksi_satuan`
+  ADD CONSTRAINT `transaksi_satuan_ibfk_1` FOREIGN KEY (`obatid`) REFERENCES `obat` (`obatid`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

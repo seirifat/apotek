@@ -36,6 +36,9 @@
                 <a href="#"><img class="icon" src="<?php echo base_url();?>/asset/images/toolbar/supplier.png"> Supplier</a>
             </li>
             <li>
+                <a href="<?php echo site_url('distributor');?>"><img class="icon" src="<?php echo base_url();?>/asset/images/toolbar/distributor.png"> Distributor</a>
+            </li>
+            <li>
                 <a href="#"><img class="icon" src="<?php echo base_url();?>/asset/images/toolbar/pemesanan.png"> Pemesanan obat</a>
             </li>
             <li>

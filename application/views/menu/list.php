@@ -13,7 +13,8 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <p>Tabel</p>
+            <?php echo $tabel_data;?>
+            <?php echo !empty($pesan)||isset($pesan)?$pesan:'';?>
         </div><!-- /.col-lg-12 -->
     </div>
 </div><!-- /#page-wrapper -->

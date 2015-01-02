@@ -27,6 +27,8 @@
 
     <!-- Custom Fonts -->
     <link href="<?php echo base_url();?>/asset/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
 </head>
 
 <body>
