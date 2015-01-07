@@ -11,7 +11,7 @@ class Main extends MY_Controller
     public function index()
     {
         $this->data['mainview'] = 'home/home';
-        $this->data['title'] = 'Homes';
+        $this->data['title'] = 'Home';
         $this->load->view('main',$this->data);
     }
 

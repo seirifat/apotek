@@ -39,6 +39,8 @@
 */
 
 $route['default_controller'] = "login";
+$route['distributor/page'] = "distributor/index";
+$route['distributor/page/(:num)'] = "distributor/index/$1";
 $route['404_override'] = '';
 
 

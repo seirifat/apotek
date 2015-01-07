@@ -26,6 +26,7 @@
         <div class="col-lg-12">
             <?php echo !empty($pesan)||isset($pesan)?$pesan:'';?>
             <?php echo $tabel_data;?>
+            <div class="text text-right"><?php echo $pagination;?></div>
         </div><!-- /.col-lg-12 -->
     </div>
 </div><!-- /#page-wrapper -->
